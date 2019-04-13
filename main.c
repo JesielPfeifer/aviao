@@ -56,8 +56,8 @@ int tabela(int vuser)
 
     printf("/:::::::::::::::::::::::::::::::::::TABELA DE VALORES ::::::::::::::::::::::::::::::\\\n\n");
     printf("|=====CATEGORIA=====|\t |====FILEIRAS=====|\t |FATOR|\t|DESCONTO 0<2 ANOS|\t |DESCONTO 2 A 12 ANOS|\n");
-    printf("|-------------------|\t |-----------------|\t |-----|\t|-----------------|\t |--------------------|");
-    printf("\n|----EXECUTIVA------|\t |-----01-A-06-----|\t |-%d - 2.5-|\t|---%d - 20%%off---|\t |----%d - 10%%off-----|\n",fat1, desc20, desc10);
+    printf("|-------------------|\t |-----------------|\t |-----|\t|-----------------|\t |--------------------|\n");
+    printf("|----EXECUTIVA------|\t |-----01-A-06-----|\t |-%d - 2.5-|\t|---%d - 20%%off---|\t |----%d - 10%%off-----|\n",fat1, desc20, desc10);
     printf("|----ECONOMICA------|\t |07-A-10 e 14-A-28|\t |-%d - 0.9-|\t|---%d - 50%%off---|\t |----%d - 30%%off-----|\n",fat2, desc50, desc30);
     printf("|SAIDA-DE-EMERGENCIA|\t |-----12-A-13-----|\t |-%d - 1.1-|\t|---%d - 30%%off---|\t |----%d - 20%%off-----|\n",fat3, desc30, desc20);
     printf("|--SEM-RECLINAGEM---|\t |-----11-A-29-----|\t |-%d - 0.8-|\t|---%d - 70%%off---|\t |----%d - 50%%off-----|\n\n",fat4, desc70, desc50);
@@ -126,12 +126,12 @@ int main()
     {
         system("cls");
         mapa();
-        printf("O valor base da sua passagem é: %d", vuser);
+        printf("O valor base da sua passagem ï¿½: %d", vuser);
         printf("\n----------------------------------------------------------------");
         printf("\n1 - LISTA DE VALORES");
         printf("\n2 - RESERVA DE ASSENTO");
-        printf("\n3 - LIBERAÇÃO DE ASSENTO");
-        printf("\n4 - CONSULTAR SITUAÇÃO DE UM ASSENTO");
+        printf("\n3 - LIBERAï¿½ï¿½O DE ASSENTO");
+        printf("\n4 - CONSULTAR SITUAï¿½ï¿½O DE UM ASSENTO");
         printf("\n5 - CONSULTAR DISPONIBILIDADES DE ASSENTOS CONSECUTIVOS");
         printf("\n6 - RELATORIOS");
         printf("\n7 - FECHAR PROGRAMA");
@@ -156,23 +156,23 @@ int main()
             }
             while(((letra<65 || letra>70) && (letra<97 || letra>102)) || num<1 || num>29); //VERIFICA VALORES INSERIDOS PELO USUARIO
 
-            //VERIFICA SE O ASSENTO JÁ ESTA SENDO USADO
+            //VERIFICA SE O ASSENTO Jï¿½ ESTA SENDO USADO
             if(m[parseIndex(letra)][parseIndex2(num)]>0)
             {
                 system("cls");
-                printf("VAGA JÁ OCUPADA\n");
+                printf("VAGA Jï¿½ OCUPADA\n");
                 Sleep(1000); //VALOR MILISEGUNDOS TEMPO DE ESPERA
                 break;
             }
 
             printf("Digite sua idade: ");
             scanf("%d", &idade);
-            printf("Você escolheu o assento %c%d com valor de %d, deseja confirmar a reserva?[S][N]", letra,num);
+            printf("Vocï¿½ escolheu o assento %c%d com valor de %d, deseja confirmar a reserva?[S][N]", letra,num);
             do
             {
                 scanf("%c", &confirm);
             }
-            while((confirm!='S') && (confirm!='s') && (confirm!='n') && (confirm!='N')); //VERIFICA SE A OPÇÃO COLOCADA É IGUAL AOS PADROES ACEITOS
+            while((confirm!='S') && (confirm!='s') && (confirm!='n') && (confirm!='N')); //VERIFICA SE A OPï¿½ï¿½O COLOCADA ï¿½ IGUAL AOS PADROES ACEITOS
             if ((confirm=='s')||(confirm=='S'))
             {
                 m[parseIndex(letra)][parseIndex2(num)] = idade;
@@ -181,7 +181,7 @@ int main()
             else
             {
                 system("cls");
-                printf("RESERVA NÃO CONFIRMADA");
+                printf("RESERVA Nï¿½O CONFIRMADA");
                 Sleep(1000);
             }
             break;
