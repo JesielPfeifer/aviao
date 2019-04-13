@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1554944107 source:c:\users\jesielpfeifer\documents\03042019 - string\avião\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+
+1555006182 source:c:\users\jesiel\documents\avião\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+	<windows.h>
+
