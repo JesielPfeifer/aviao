@@ -8,18 +8,17 @@
 int m[6][29];
 
 //-------------------------------
-/*int libera(char letra, int num, int parseIndex, int parseIndex2)
+/*int libera(char l, int n)
 {
-   if(m[parseIndex(letra)][parseIndex2(num)] > 0 )
-   {
-       printf("VAGA LIBERADA");
-       m[parseIndex(letra)][parseIndex2(num)] = -1;
-   }
-   else 
-   {
-      printf("VAGA JA ESTA LIVRE"); 
-   }
-   system ("pause");
+
+    if (m[l][n] > 0)
+    {
+        printf("PASSOU %d", k);
+        k = 1;
+    }
+
+    return k;
+    system("pause");
 }
 */
 int parseIndex2(int n)
@@ -194,33 +193,39 @@ int main()
             }
             break;
         case 3:
-            printf("Digite o assento: (A ate F 1 ate 29): ");
+            printf("Digite o assento (A ate F 1 ate 29): ");
             fflush(stdin);
             do
             {
                 scanf("%c", &letra);
                 scanf("%d", &num);
             } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
-            printf("DESEJA CONFIRMAR A LIBERACAO DO ASSENTO?[S][N]: ");
+           // int result = libera(letra, num);
+            printf("\nDESEJA CONFIRMAR A LIBERACAO DO ASSENTO %c%d?[S][N]: ", letra, num);
             fflush(stdin);
             do
             {
                 scanf("%c", &confirm);
             } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
-            if((confirm == 's')||(confirm=='S'))
-        {
-            if (m[parseIndex(letra)][parseIndex2(num)] > 0)
+
+            system("pause");
+            if ((confirm == 's') || (confirm == 'S'))
             {
-                printf("\nVAGA LIBERADA");
-                m[parseIndex(letra)][parseIndex2(num)] = -1;
-                Sleep(3000);
+                printf("%c %d\n", letra ,num );
+                if (m[parseIndex(letra)][parseIndex2(num)] > 0)
+                {
+                    printf("%d", m[parseIndex(letra)][parseIndex2(num)]);
+                    printf("LIBERANDO VAGA");
+                    m[parseIndex(letra)][parseIndex(num)] = -1;
+
+                    Sleep(3000);
+                }
+                else
+                {
+                    printf("VAGA JA ESTA LIVRE");
+                }
             }
-            else
-            {
-                printf("\nVAGA JA ESTA LIVRE");
-                Sleep(3000);
-            }
-        }
+
             break;
         case 7:
             return 0;
