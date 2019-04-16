@@ -8,19 +8,17 @@
 int m[6][29];
 
 //-------------------------------
-/*int libera(char l, int n)
+int libera(char l, int n)
 {
-
+    int k = 0;
     if (m[l][n] > 0)
     {
-        printf("PASSOU %d", k);
         k = 1;
     }
-
     return k;
     system("pause");
 }
-*/
+
 int parseIndex2(int n)
 {
     return n - 1;
@@ -28,30 +26,7 @@ int parseIndex2(int n)
 int parseIndex(char l)
 {
     int n;
-    if (l == 65 || l == 97)
-    {
-        n = 5;
-    }
-    else if (l == 66 || l == 98)
-    {
-        n = 4;
-    }
-    else if (l == 67 || l == 99)
-    {
-        n = 3;
-    }
-    else if (l == 68 || l == 100)
-    {
-        n = 2;
-    }
-    else if (l == 69 || l == 101)
-    {
-        n = 1;
-    }
-    else
-    {
-        n = 0;
-    }
+    n = (l - 'F') * -1;
     return n;
 }
 int tabela(int vuser)
@@ -122,7 +97,7 @@ int main()
 
     inicializa();
     setlocale(LC_ALL, "portuguese");
-    int opcao, num, vuser, idade;
+    int opcao, num, vuser, idade, cnum;
     char confirm, letra;
 
     //garantindo valor positivo inserido pelo user
@@ -197,42 +172,49 @@ int main()
             fflush(stdin);
             do
             {
-                scanf("%c", &letra);
-                scanf("%d", &num);
+                scanf("%c%d", &letra, &num);
             } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
-           // int result = libera(letra, num);
             printf("\nDESEJA CONFIRMAR A LIBERACAO DO ASSENTO %c%d?[S][N]: ", letra, num);
             fflush(stdin);
             do
             {
                 scanf("%c", &confirm);
             } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
-
-            system("pause");
-            if ((confirm == 's') || (confirm == 'S'))
+            int result = libera(parseIndex(letra), parseIndex2(num));
+            if (result == 1)
             {
-                printf("%c %d\n", letra ,num );
-                if (m[parseIndex(letra)][parseIndex2(num)] > 0)
-                {
-                    printf("%d", m[parseIndex(letra)][parseIndex2(num)]);
-                    printf("LIBERANDO VAGA");
-                    m[parseIndex(letra)][parseIndex(num)] = -1;
-
-                    Sleep(3000);
-                }
-                else
-                {
-                    printf("VAGA JA ESTA LIVRE");
-                }
+                printf("\nLIBERANDO VAGA");
+                m[parseIndex(letra)][parseIndex2(num)] = -1;
             }
+            else
+            {
+                printf("VAGA JA ESTA LIBERADA");
+            }
+            break;
+        case 5:
+            printf("insira a quantidade de assento: ");
+            fflush(stdin);
+            scanf("%d", &num);
 
-            break;
-        case 7:
-            return 0;
-            break;
-        default:
-            break;
+            int flag = 0;
+
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 29; j++)
+                {
+                    for (int k = 0; k < num; k++)
+                    {
+                        
+                    }
+                    printf("\n");
+                }
+                break;
+            case 7:
+                return 0;
+                break;
+            default:
+                break;
+            }
         }
+        return 0;
     }
-    return 0;
-}
