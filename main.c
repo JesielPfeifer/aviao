@@ -10,7 +10,7 @@ int m[6][29];
 //-------------------------------
 int libera(char l, int n)
 {
-    int k = 0;
+    int k=0;
     if (m[l][n] > 0)
     {
         k = 1;
@@ -25,8 +25,31 @@ int parseIndex2(int n)
 }
 int parseIndex(char l)
 {
-    int n;
-    n = (l - 'F') * -1;
+int n;
+    if (l == 65 || l == 97)
+    {
+        n = 5;
+    }
+    else if (l == 66 || l == 98)
+    {
+        n = 4;
+    }
+    else if (l == 67 || l == 99)
+    {
+        n = 3;
+    }
+    else if (l == 68 || l == 100)
+    {
+        n = 2;
+    }
+    else if (l == 69 || l == 101)
+    {
+        n = 1;
+    }
+    else
+    {
+        n = 0;
+    }
     return n;
 }
 int tabela(int vuser)
@@ -105,7 +128,8 @@ int main()
     {
         printf("Para iniciar o programa digite o valor base da sua passagem,\nlembrando que o valor deve ser acima de zero (0): ");
         scanf("%d", &vuser);
-    } while (vuser <= 0);
+    }
+    while (vuser <= 0);
 
     while (1)
     {
@@ -138,7 +162,8 @@ int main()
                 scanf("%c", &letra);
                 scanf("%d", &num);
 
-            } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29); //VERIFICA VALORES INSERIDOS PELO USUARIO
+            }
+            while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);   //VERIFICA VALORES INSERIDOS PELO USUARIO
 
             //VERIFICA SE O ASSENTO JA ESTA SENDO USADO
             if (m[parseIndex(letra)][parseIndex2(num)] > 0)
@@ -155,7 +180,8 @@ int main()
             do
             {
                 scanf("%c", &confirm);
-            } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N')); //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
+            }
+            while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
             if ((confirm == 's') || (confirm == 'S'))
             {
                 m[parseIndex(letra)][parseIndex2(num)] = idade;
@@ -173,18 +199,20 @@ int main()
             do
             {
                 scanf("%c%d", &letra, &num);
-            } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
+            }
+            while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
             printf("\nDESEJA CONFIRMAR A LIBERACAO DO ASSENTO %c%d?[S][N]: ", letra, num);
             fflush(stdin);
             do
             {
                 scanf("%c", &confirm);
-            } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
-            int result = libera(parseIndex(letra), parseIndex2(num));
-            if (result == 1)
+            }
+            while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
+            int result = libera(parseIndex(letra),parseIndex2(num));
+            if(result==1)
             {
                 printf("\nLIBERANDO VAGA");
-                m[parseIndex(letra)][parseIndex2(num)] = -1;
+                m[parseIndex(letra)][parseIndex2(num)]=-1;
             }
             else
             {
@@ -198,23 +226,23 @@ int main()
 
             int flag = 0;
 
-            for (int i = 0; i < 6; i++)
+            for(int i=0; i < 6; i++)
             {
-                for (int j = 0; j < 29; j++)
+                for (int j=0; j < 29; j++)
                 {
-                    for (int k = 0; k < num; k++)
+                    for(int k=0; k<num; k++)
                     {
-                        
                     }
                     printf("\n");
                 }
-                break;
-            case 7:
-                return 0;
-                break;
-            default:
-                break;
-            }
+            break;
+        case 7:
+            return 0;
+            break;
+        default:
+            break;
         }
-        return 0;
     }
+    return 0;
+}
+
