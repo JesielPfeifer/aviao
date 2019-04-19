@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/UNI/GIT/aviao/main.c
+stdio.h
+-
+stdlib.h
+-
+locale.h
+-
+string.h
+-
+windows.h
+-
+

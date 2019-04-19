@@ -27,19 +27,7 @@ int parseIndex2(int n) {
 
 int parseIndex(char l) {
     int n;
-    if (l == 65 || l == 97) {
-        n = 5;
-    } else if (l == 66 || l == 98) {
-        n = 4;
-    } else if (l == 67 || l == 99) {
-        n = 3;
-    } else if (l == 68 || l == 100) {
-        n = 2;
-    } else if (l == 69 || l == 101) {
-        n = 1;
-    } else {
-        n = 0;
-    }
+    n = (l - 'F') * -1;
     return n;
 }
 
@@ -122,7 +110,7 @@ void mapa() {
     printf("                                \\::::::::::::::::::::::| \n");
 }
 
-/*void catAssento(int num) {
+void catAssento(int num) {
     if (num <= 6 && num >= 1) {
         printf("EXECUTIVA");
     } else if ((num <= 10 && num >= 7) || (num <= 28 && num >= 14)) {
@@ -132,7 +120,7 @@ void mapa() {
     } else {
         printf("SEM RECLINAGEM");
     }
-}*/
+}
 
 void AssentoOcup(char letra, int num) {
     if (m[letra][num] > 0) {
@@ -150,7 +138,6 @@ void valorPassStatus(char l, int n, float vuser) {
     printf("%d\n", m[l][n]);
     if (m[l][n] < 0) {
         if (n <= 6 && n >= 1) { //executiva
-            printf("EXECUTIVA");
             v.fat1 = vuser * 2.5;
             v.desc20Ex = v.fat1 * 0.8;
             v.desc10 = v.fat1 * 0.9;
@@ -158,7 +145,6 @@ void valorPassStatus(char l, int n, float vuser) {
             printf("Criancas de 0 a < 2: %.2f\n", v.desc20Ex);
             printf("Criancas de 2 a < 12: %.2f\n", v.desc10);
         } else if ((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { // economica
-            printf("ECONOMICA");
             v.fat2 = vuser * 0.9;
             v.desc30E = v.fat2 * 0.7;
             v.desc50E = v.fat2 * 0.5;
@@ -166,7 +152,6 @@ void valorPassStatus(char l, int n, float vuser) {
             printf("Criancas de 0 a < 2: %.2f\n", v.desc50E);
             printf("Criancas de 2 a < 12: %.2f\n", v.desc30E);
         } else if (n == 12 || n == 13) { //saida de emergencia
-            printf("SAIDA DE EMERGENCIA");
             v.fat3 = vuser * 1.1;
             v.desc30SE = v.fat3 * 0.7;
             v.desc20SE = v.fat3 * 0.8;
@@ -174,7 +159,6 @@ void valorPassStatus(char l, int n, float vuser) {
             printf("Criancas de 0 a < 2: %.2f\n", v.desc30SE);
             printf("Criancas de 2 a < 12: %.2f\n", v.desc20SE);
         } else { //SEM RECLINAGEM
-            printf("SEM RECLINAGEM");
             v.fat4 = vuser * 0.8;
             v.desc70 = v.fat4 * 0.3;
             v.desc50SR = v.fat4 * 0.5;
@@ -263,7 +247,8 @@ int main() {
                 fflush(stdin);
                 do {
                     scanf("%c%d", &letra, &num);
-                } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
+                } while ((letra < 65 || letra > 70) &&
+                         (num < 1 || num > 29));
                 printf("\nDESEJA CONFIRMAR A LIBERACAO DO ASSENTO %c%d?[S][N]: ", letra, num);
                 fflush(stdin);
                 do {
@@ -282,7 +267,8 @@ int main() {
                 fflush(stdin);
                 do {
                     scanf("%c%d", &letra, &num);
-                } while (((letra < 65 || letra > 70) && (letra < 97 || letra > 102)) || num < 1 || num > 29);
+                } while ((letra < 65 || letra > 70) &&
+                         (num < 1 || num > 29));
                 //catAssento(num); //printa categoria
                 printf("\n");
                 AssentoOcup(parseIndex(letra), parseIndex2(num));
