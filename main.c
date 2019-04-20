@@ -178,7 +178,7 @@ void valorPassStatus(char l, int n, float vuser) {
         if(n <= 6 && n >= 0) {
             if(m[l][n]>=0 && m[l][n]<2) { //executiva
                 printf("Valor da passagem eh: %.2f", v.desc20Ex);
-            } else if(m[l][n]>2 && m[l][n]<=12) {
+            } else if(m[l][n]>=2 && m[l][n]<=12) {
                 printf("Valor da passagem eh: %.2f", v.desc10);
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat1);
@@ -186,7 +186,7 @@ void valorPassStatus(char l, int n, float vuser) {
         } else if((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
             if(m[l][n]>=0 && m[l][n]<2) {
                 printf("Valor da passagem eh: %.2f", v.desc50E);
-            } else if(m[l][n]>2 && m[l][n]<=12) {
+            } else if(m[l][n]>=2 && m[l][n]<=12) {
                 printf("Valor da passagem eh: %.2f", v.desc30E);
             } else {
                 printf("Valor da passagem eh: %.2f",v.fat2);
@@ -194,7 +194,7 @@ void valorPassStatus(char l, int n, float vuser) {
         } else if(n == 12 || n == 13) {
             if(m[l][n]>=0 && m[l][n]<2) {
                 printf("Valor da passagem eh: %.2f", v.desc30SE);
-            } else if(m[l][n]>2 && m[l][n]<=12) {
+            } else if(m[l][n]>=2 && m[l][n]<=12) {
                 printf("Valor da passagem eh: %.2f",v.desc20SE);
 
             } else {
@@ -203,7 +203,7 @@ void valorPassStatus(char l, int n, float vuser) {
         } else {
             if(m[l][n]>=0 && m[l][n]<2) {
                 printf("Valor da passagem eh: %.2f",v.desc70);
-            } else if(m[l][n]>2 && m[l][n]<=12) {
+            } else if(m[l][n]>=2 && m[l][n]<=12) {
                 printf("Valor da passagem eh: %.2f", v.desc50SR);
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat4);
