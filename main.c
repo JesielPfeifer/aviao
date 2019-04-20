@@ -124,7 +124,7 @@ void catAssento(int num) {
 }
 
 void AssentoOcup(char letra, int num) {
-    if (m[letra][num] > 0) {
+    if (m[letra][num] >= 0) {
         printf("OCUPADO\n");
         printf("Idade: %d", m[letra][num]);
     } else {
@@ -143,9 +143,10 @@ void valorPassStatus(char l, int n, float vuser) {
     v.fat4 = vuser * 0.8;
     v.desc70 = v.fat4 * 0.3;
     v.desc50SR = v.fat4 * 0.5;
-
+    printf("VALOR LN: %d%d",l, n);
     if (m[l][n] < 0) { //SE TIVER VAZIO
-        if (n <= 6 && n >= 1) { //executiva
+
+        if (n <= 6 && n >= 0) { //executiva
 
             printf("Valor adulto: %.2f\n", v.fat1);
             printf("Valor criancas de 0 a < 2: %.2f\n", v.desc20Ex);
@@ -170,7 +171,7 @@ void valorPassStatus(char l, int n, float vuser) {
         }
 
     } else {
-        if(n <= 6 && n >= 1) {
+        if(n <= 6 && n >= 0) {
             if(m[l][n]>=0 && m[l][n]<=2) { //executiva
                 printf("Valor da passagem eh: %.2f", v.desc20Ex);
             } else if(m[l][n]>2 && m[l][n]<=12) {
@@ -307,11 +308,11 @@ int main() {
                     letra -= 32;
                 }
             } while (letra < 65 || letra > 70 || num < 1 || num > 29);
-            //catAssento(num); //printa categoria
+            catAssento(num); //printa categoria
             printf("\n");
             AssentoOcup(parseIndex(letra), parseIndex2(num));
             printf("\n");
-            valorPassStatus(parseIndex(letra), num, vuser);
+            valorPassStatus(parseIndex(letra), parseIndex2(num), vuser);
             printf("\n");
             system("pause");
             break;
