@@ -7,11 +7,13 @@
 
 int m[6][29];
 float vuser = 0;
+
 typedef struct valor {
     float desc10, desc20Ex, desc20SE, desc30E, desc30SE, desc50SR, desc50E, desc70;
     float fat1, fat2, fat3, fat4;
 
 } sVa;
+
 //-------------------------------
 int libera(char l, int n) {
     int k = 0;
@@ -34,7 +36,6 @@ int parseIndex(char l) {
 
 void tabela(float vuser) {
     sVa v; //
-
     v.fat1 = vuser * 2.5; //EXECUTIVA
     v.fat2 = vuser * 0.9; //ECONOMICA
     v.fat3 = vuser * 1.1; //SAIDA DE EMERGENCIA
@@ -48,7 +49,6 @@ void tabela(float vuser) {
     v.desc50SR = v.fat4 * 0.5; //50% DESCONTO SEM RECLINAGEM 2<12
     v.desc50E = v.fat2 * 0.5; //50% DESCONTO ECONOMICA 0<2
     v.desc70 = v.fat4 * 0.3; //70% DESCONTO SEM RECLINAGEM 0<2
-
     printf("/:::::::::::::::::::::::::::::::::::TABELA DE VALORES ::::::::::::::::::::::::::::::\\\n\n");
     printf("|=====CATEGORIA=====|\t |====FILEIRAS=====|\t |  FATOR  |\t|DESCONTO 0<2 ANOS|\t |DESCONTO 2 A 12 ANOS|\n");
     printf("|-------------------|\t |-----------------|\t |---------|\t|-----------------|\t |--------------------|\n");
@@ -74,8 +74,6 @@ void inicializa() {
 
 void mapa() {
     char letra;
-    //char linha1[88];
-
     printf("                                /::::::::::::::::::::| \n");
     printf("                               /:::::::::::::::::::::| \n");
     printf("                              /::::::::::::::::::::::| \n");
@@ -138,7 +136,7 @@ void AssentoOcup(char letra, int num) {
     }
 }
 
-void valorPassStatus(char l, int n, float vuser) {
+int valorPassStatus(char l, int n, float vuser) {
     sVa v;
     v.fat1 = vuser * 2.5;
     v.desc20Ex = v.fat1 * 0.8;
@@ -150,7 +148,6 @@ void valorPassStatus(char l, int n, float vuser) {
     v.desc70 = v.fat4 * 0.3;
     v.desc50SR = v.fat4 * 0.5;
     if (m[l][n] < 0) { //SE TIVER VAZIO
-
         if (n <= 6 && n >= 0) { //executiva
             printf("Valor adulto: %.2f\n", v.fat1);
             printf("Valor criancas de 0 a < 2: %.2f\n", v.desc20Ex);
@@ -196,7 +193,6 @@ void valorPassStatus(char l, int n, float vuser) {
                 printf("Valor da passagem eh: %.2f", v.desc30SE);
             } else if(m[l][n]>=2 && m[l][n]<=12) {
                 printf("Valor da passagem eh: %.2f",v.desc20SE);
-
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat3);
             }
@@ -211,14 +207,62 @@ void valorPassStatus(char l, int n, float vuser) {
         }
     }
 }
+float vPass2(int n, float vuser) {
+    sVa v;
+    v.fat1 = vuser * 2.5; //EXECUTIVA
+    v.fat2 = vuser * 0.9; //ECONOMICA
+    v.fat3 = vuser * 1.1; //SAIDA DE EMERGENCIA
+    v.fat4 = vuser * 0.8; //SEM RECLINAGEM
 
+    v.desc10 = v.fat1 * 0.9; //10% DESCONTO EXECUTIVA 2<12
+    v.desc20Ex = v.fat1 * 0.8; //20% DESCONTO EXECUTIVA 0<2
+    v.desc20SE = v.fat3 * 0.8; //20% SAIDA DE EMERGENCIA 2<12
+    v.desc30SE = v.fat3 * 0.7; //30% SAIDA DE EMERGENCIA 2<12
+    v.desc30E = v.fat2 * 0.7; //30% DESCONTO ECONOMICA 2<12
+    v.desc50SR = v.fat4 * 0.5; //50% DESCONTO SEM RECLINAGEM 2<12
+    v.desc50E = v.fat2 * 0.5; //50% DESCONTO ECONOMICA 0<2
+    v.desc70 = v.fat4 * 0.3; //70% DESCONTO SEM RECLINAGEM 0<2
+    float k=0;
+    if(n <= 6 && n >= 0) {
+        if(n>=0 && n<2) { //executiva
+            k=v.desc20Ex;
+        } else if(n>=2 && n<=12) {
+           k=v.desc10;
+        } else {
+           k=v.fat1;
+        }
+    } else if((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
+        if(n>=0 && n<2) {
+            k = v.desc50E;
+        } else if(n>=2 && n<=12) {
+            k = v.desc30E;
+        } else {
+            k = v.fat2;
+        }
+    } else if(n == 12 || n == 13) {
+        if(n>=0 && n<2) {
+            k = v.desc30SE;
+        } else if(n>=2 && n<=12) {
+            k = v.desc20SE;
+        } else {
+            k = v.fat3;
+        }
+    } else {
+        if(n>=0 && n<2) {
+            k = v.desc70;
+        } else if(n>=2 && n<=12) {
+            k = v.desc50SR;
+        } else {
+            k = v.fat4;
+        }
+    }
+    return k;
+}
 int main() {
     inicializa();
     setlocale(LC_ALL, "portuguese");
     int opcao, num, idade;
     char confirm, letra;
-
-
     //garantindo valor positivo inserido pelo user
     do {
         printf("Para iniciar o programa digite o valor base da sua passagem,\nlembrando que o valor deve ser acima de zero (0): ");
@@ -247,6 +291,7 @@ int main() {
             tabela(vuser);
             break;
         case 2:
+
             mapa();
             do {
                 printf("Digite o assento: (A ate F e 1 ate 29)\n"); //PEDE O ASSENTO PARA O USUARIO
@@ -258,25 +303,24 @@ int main() {
                 if(letra < 65 || letra > 70 || num < 1 || num > 29) {
                     printf("\nOpcao invalida digite novamente.\n"); //PEDE O ASSENTO PARA O USUARIO
                 }
-
             } while (letra < 65 || letra > 70 || num < 1 || num > 29);   //VERIFICA VALORES INSERIDOS PELO USUARIO
-
             if (m[parseIndex(letra)][parseIndex2(num)] > 0) {//VERIFICA SE O ASSENTO JA ESTA SENDO USADO
                 system("cls");
                 printf("VAGA JA OCUPADA\n");
                 Sleep(1000); //VALOR MILISEGUNDOS TEMPO DE ESPERA
                 break;
             }
-
             printf("Digite sua idade: ");
             scanf("%d", &idade);
-            printf("Voce escolheu o assento %c%d com valor de %d, deseja confirmar a reserva?\n[S][N]: ", letra, num);
+            printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra, num, vPass2(parseIndex2(num), vuser));
+//            int bResult = vPass2(parseIndex2(num), vuser);
             do {
                 scanf("%c", &confirm);
             } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
                      (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
             if ((confirm == 's') || (confirm == 'S')) {
                 m[parseIndex(letra)][parseIndex2(num)] = idade;
+
             } else {
                 system("cls");
                 printf("RESERVA NAO CONFIRMADA");
@@ -328,6 +372,7 @@ int main() {
             printf("\n");
             system("pause");
             break;
+
 
         case 5:
             printf("Insira a quantidade de assento: ");
