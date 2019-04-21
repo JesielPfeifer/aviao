@@ -372,16 +372,16 @@ void graficoC() {
     int idadeVinteSessenta = 0;
     int idadeSessentaNoventa = 0;
     for(int i=0; i<6; i++) {
-        for(int j=0; j<6; j++) {
-            if(m[i][j]>=0 && m[i][j]<=2) {
+        for(int j=0; j<29; j++) {
+            if(m[i][j]>=0 && m[i][j]<2) {
                 idadeZeroDois++;
-            } else if(m[i][j]>2 && m[i][j]<=12) {
+            } else if(m[i][j]>=2 && m[i][j]<12) {
                 idadeDoisDoze++;
-            } else if(m[i][j]>12 && m[i][j]<=20) {
+            } else if(m[i][j]>=12 && m[i][j]<20) {
                 idadeDozeVinte++;
-            } else if(m[i][j]>20 && m[i][j]<=60) {
+            } else if(m[i][j]>=20 && m[i][j]<60) {
                 idadeVinteSessenta++;
-            } else if(m[i][j]>60) {
+            } else if(m[i][j]>=60) {
                 idadeSessentaNoventa++;
             }
         }
@@ -438,6 +438,59 @@ void graficoC() {
     printf("]\n");
 }
 
+void graficoD(){
+    float valorTotal = vToTEx + vToTSR + vToTSE + vToTEc;
+
+    float porcentagemEx = 0;
+    if(valorTotal!=0){
+        porcentagemEx = (100.0*vToTEx)/valorTotal;
+    }
+    int pEx = toPorcentagem(porcentagemEx);
+
+
+    float porcentagemEc = 0;
+    if(valorTotal!=0){
+        porcentagemEc = (100.0*vToTEc)/valorTotal;
+    }
+    int pEc = toPorcentagem(porcentagemEc);
+
+    float porcentagemSE = 0;
+    if(valorTotal!=0){
+        porcentagemSE = (100.0*vToTSE)/valorTotal;
+    }
+    int pSE = toPorcentagem(porcentagemSE);
+
+
+    float porcentagemSR = 0;
+    if(valorTotal!=0){
+        porcentagemSR = (100.0*vToTSR)/valorTotal;
+    }
+    int pSR = toPorcentagem(porcentagemSR);
+
+
+    printf("Executiva:          \tR$%9.2f - \t%5.1f%% [", vToTEx, porcentagemEx);
+    toGrafico(pEx);
+    printf("]\n");
+
+    printf("Economica:          \tR$%9.2f - \t%5.1f%% [", vToTEc, porcentagemEc);
+    toGrafico(pEc);
+    printf("]\n");
+
+    printf("Saida Emergencia:   \tR$%9.2f - \t%5.1f%% [", vToTSE, porcentagemSE);
+    toGrafico(pSE);
+    printf("]\n");
+
+    printf("Sem Reclinagem:     \tR$%9.2f - \t%5.1f%% [", vToTSR, porcentagemSR);
+    toGrafico(pSR);
+    printf("]\n");
+
+
+    printf("Total:              \tR$%9.2f - \t%5.1f%% [", valorTotal, 100.0);
+    toGrafico(20);
+    printf("]\n");
+
+}
+
 void toGrafico(int multi5) {
     for(int i=0; i<20; i++) {
         if(multi5>i) {
@@ -446,6 +499,19 @@ void toGrafico(int multi5) {
             printf(".");
         }
     }
+}
+
+void somaGanhos(int n, float v){
+    if (n<6) {
+        vToTEx += v;
+    } else if(n == 10 || n == 28) {
+        vToTSR += v;
+    } else if(n == 11 || n == 12) {
+        vToTSE += v;
+    } else {
+        vToTEc +=v;
+    }
+
 }
 
 int main() {
@@ -502,7 +568,8 @@ int main() {
             } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
                      (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
             if ((confirm == 's') || (confirm == 'S')) {
-
+                float val = vPass2(parseIndex(letra),num, vuser, idade);
+                somaGanhos(parseIndex2(num), val);
                 m[parseIndex(letra)][parseIndex2(num)] = idade;
 
             } else {
@@ -567,7 +634,7 @@ int main() {
                         letra = k / -1 + 'F';
                         if (k == fin1 - num + 1 || k == fin1) {
                             printf("%c", letra);
-                            printf("%d ", fin2);
+                            printf("%d ", fin2+1);
                         }
                     }
                     printf("\n");
@@ -585,6 +652,8 @@ int main() {
         graficoB();
         printf("\n");
         graficoC();
+        printf("\n");
+        graficoD();
         system("pause");
         break;
     case 7:
