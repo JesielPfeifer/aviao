@@ -9,6 +9,12 @@ int m[6][29];
 char letra;
 int num;
 float vuser=0;
+
+float vToTEx = 0;
+float vToTEc = 0;
+float vToTSE = 0;
+float vToTSR = 0;
+
 typedef struct valor {
     float desc10, desc20Ex, desc20SE, desc30E, desc30SE, desc50SR, desc50E, desc70;
     float fat1, fat2, fat3, fat4;
@@ -219,7 +225,6 @@ float vPass2(int l,int n, float vuser, int idade) {
     v.desc70 = v.fat4 * 0.3; //70% DESCONTO SEM RECLINAGEM 0<2
     float k=0;
     if(n <= 6 && n >= 0) {
-        printf("%d",m[l][n]);
         if(idade >=0 && idade<2) { //executiva
             k=v.desc20Ex;
         } else if(idade>=2 && idade<=12) {
@@ -482,19 +487,25 @@ int main() {
 
             mapa();
             leAssento();
-            if (m[parseIndex(letra)][parseIndex2(num)] > 0) {//VERIFICA SE O ASSENTO JA ESTA SENDO USADO
+            if (m[parseIndex(letra)][parseIndex2(num)] >= 0) {//VERIFICA SE O ASSENTO JA ESTA SENDO USADO
                 printf("Vaga ja ocupada!\n");
                 Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
                 break;
             }
-            printf("Digite sua idade: ");
-            scanf("%d", &idade);
+            do {
+                printf("Digite sua idade (0 ate 99): ");
+                scanf("%d", &idade);
+                if(idade>99 || idade<0) {
+                    printf("\nIdade invalida, digite novamente\n");
+                }
+            } while(idade>99 || idade<0);
             printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra, num, vPass2(parseIndex(letra),num, vuser, idade));
             do {
                 scanf("%c", &confirm);
             } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
                      (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
             if ((confirm == 's') || (confirm == 'S')) {
+
                 m[parseIndex(letra)][parseIndex2(num)] = idade;
 
             } else {
