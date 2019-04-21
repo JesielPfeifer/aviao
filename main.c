@@ -137,35 +137,33 @@ void AssentoOcup(char letra, int num) {
 }
 
 int valorPassStatus(char l, int n, float vuser) {
-    sVa v;
-    v.fat1 = vuser * 2.5;
-    v.desc20Ex = v.fat1 * 0.8;
-    v.desc10 = v.fat1 * 0.9;
-    v.fat2 = vuser * 0.9;
-    v.desc30E = v.fat2 * 0.7;
-    v.desc50E = v.fat2 * 0.5;
-    v.fat4 = vuser * 0.8;
-    v.desc70 = v.fat4 * 0.3;
-    v.desc50SR = v.fat4 * 0.5;
-    if (m[l][n] < 0) { //SE TIVER VAZIO
+    sVa v; //
+    v.fat1 = vuser * 2.5; //EXECUTIVA
+    v.fat2 = vuser * 0.9; //ECONOMICA
+    v.fat3 = vuser * 1.1; //SAIDA DE EMERGENCIA
+    v.fat4 = vuser * 0.8; //SEM RECLINAGEM
+    v.desc10 = v.fat1 * 0.9; //10% DESCONTO EXECUTIVA 2<12
+    v.desc20Ex = v.fat1 * 0.8; //20% DESCONTO EXECUTIVA 0<2
+    v.desc20SE = v.fat3 * 0.8; //20% SAIDA DE EMERGENCIA 2<12
+    v.desc30SE = v.fat3 * 0.7; //30% SAIDA DE EMERGENCIA 2<12
+    v.desc30E = v.fat2 * 0.7; //30% DESCONTO ECONOMICA 2<12
+    v.desc50SR = v.fat4 * 0.5; //50% DESCONTO SEM RECLINAGEM 2<12
+    v.desc50E = v.fat2 * 0.5; //50% DESCONTO ECONOMICA 0<2
+    v.desc70 = v.fat4 * 0.3; //70% DESCONTO SEM RECLINAGEM 0<2
+    if (m[l][parseIndex2(n)] < 0) { //SE TIVER VAZIO
         if (n <= 6 && n >= 0) { //executiva
             printf("Valor adulto: %.2f\n", v.fat1);
             printf("Valor criancas de 0 a < 2: %.2f\n", v.desc20Ex);
             printf("Valor criancas de 2 a < 12: %.2f\n", v.desc10);
         } else if ((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { // economica
-
             printf("Adulto: %.2f\n", v.fat2);
             printf("Criancas de 0 a < 2: %.2f\n", v.desc50E);
             printf("Criancas de 2 a < 12: %.2f\n", v.desc30E);
         } else if (n == 12 || n == 13) { //saida de emergencia
-            v.fat3 = vuser * 1.1;
-            v.desc30SE = v.fat3 * 0.7;
-            v.desc20SE = v.fat3 * 0.8;
             printf("Adulto: %.2f\n", v.fat3);
             printf("Valor criancas de 0 a < 2: %.2f\n", v.desc30SE);
             printf("Valor criancas de 2 a < 12: %.2f\n", v.desc20SE);
         } else { //SEM RECLINAGEM
-
             printf("Adulto: %.2f\n", v.fat4);
             printf("Valor criancas de 0 a < 2: %.2f\n", v.desc70);
             printf("Valor criancas de 2 a < 12: %.2f\n", v.desc50SR);
@@ -249,7 +247,7 @@ float vPass2(int l,int n, float vuser, int idade) {
             k = v.fat3;
         }
     } else {
-        if(idade>=0 && m[l][n]<2) {
+        if(idade>=0 && idade<2) {
             k = v.desc70;
         } else if(idade>=2 && idade<=12) {
             k = v.desc50SR;
@@ -392,7 +390,6 @@ void graficoC() {
     float porcentagemZeroDois = 0;
     if(rev!=0) {
         porcentagemZeroDois = (100.0*idadeZeroDois)/rev;
-        //printf("aaaaaaaaaaaaaaaaaaa: %f\n", porcentagemZeroDois)
     }
     int porCentZeroDois = toPorcentagem(porcentagemZeroDois);
     printf("00-02: \t\t%3d - \t%5.1f%% [", idadeZeroDois, porcentagemZeroDois);
@@ -422,7 +419,7 @@ void graficoC() {
         porcentagemVinteSessenta = (100.0*idadeVinteSessenta)/rev;
     }
     int porCentVinteSessenta = toPorcentagem(porcentagemVinteSessenta);
-    printf("12-20: \t\t%3d - \t%5.1f%% [", idadeVinteSessenta, porcentagemVinteSessenta);
+    printf("20-60: \t\t%3d - \t%5.1f%% [", idadeVinteSessenta, porcentagemVinteSessenta);
     toGrafico(porCentVinteSessenta);
     printf("]\n");
 
@@ -431,7 +428,7 @@ void graficoC() {
         porcentagemSessentaNoventa = (100.0*idadeSessentaNoventa)/rev;
     }
     int porCentSessentaNoventa = toPorcentagem(porcentagemSessentaNoventa);
-    printf("12-20: \t\t%3d - \t%5.1f%% [", idadeSessentaNoventa, porcentagemSessentaNoventa);
+    printf("60-99: \t\t%3d - \t%5.1f%% [", idadeSessentaNoventa, porcentagemSessentaNoventa);
     toGrafico(porCentSessentaNoventa);
     printf("]\n");
 
@@ -543,7 +540,7 @@ int main() {
         printf("\n");
         AssentoOcup(parseIndex(letra), parseIndex2(num));
         printf("\n");
-        valorPassStatus(parseIndex(letra), parseIndex2(num), vuser);
+        valorPassStatus(parseIndex(letra), num, vuser);
         printf("\n");
         system("pause");
         break;
