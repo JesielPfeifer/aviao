@@ -39,7 +39,6 @@ int parseIndex(char l) {
     return n;
 }
 
-
 void tabela(float vuser) {
     sVa v; //
     v.fat1 = vuser * 2.5; //EXECUTIVA
@@ -57,13 +56,13 @@ void tabela(float vuser) {
     printf("/:::::::::::::::::::::::::::::::::::TABELA DE VALORES ::::::::::::::::::::::::::::::\\\n\n");
     printf("|=====CATEGORIA=====|\t |====FILEIRAS=====|\t |  FATOR  |\t|DESCONTO 0<2 ANOS|\t |DESCONTO 2 A 12 ANOS|\n");
     printf("|-------------------|\t |-----------------|\t |---------|\t|-----------------|\t |--------------------|\n");
-    printf("|----EXECUTIVA------|\t |-----01-A-06-----|\t |-%.2f - 2.5-|\t|----%.2f - 20%%off---|\t |-----%.2f - 10%%off-----|\n",
+    printf("|----EXECUTIVA------|\t |-----01-A-06-----|\t |-2.5 - %.2f-|\t|----%02.2f - 20%%off---|\t |-----%.2f - 10%%off-----|\n",
            v.fat1, v.desc20Ex, v.desc10);
-    printf("|----ECONOMICA------|\t |07-A-10 e 14-A-28|\t |-%.2f - 0.9-|\t|----%.2f - 50%%off---|\t |-----%.2f - 30%%off-----|\n",
+    printf("|----ECONOMICA------|\t |07-A-10 e 14-A-28|\t |-%.2f - 0.9-|\t|----%02.2f - 50%%off---|\t |-----%.2f - 30%%off-----|\n",
            v.fat2, v.desc50E, v.desc30E);
-    printf("|SAIDA-DE-EMERGENCIA|\t |-----12-A-13-----|\t |-%.2f - 1.1-|\t|----%.2f - 30%%off---|\t |-----%.2f - 20%%off-----|\n",
+    printf("|SAIDA-DE-EMERGENCIA|\t |-----12-A-13-----|\t |-%.2f - 1.1-|\t|----%02.2f - 30%%off---|\t |-----%.2f - 20%%off-----|\n",
            v.fat3, v.desc30SE, v.desc20SE);
-    printf("|--SEM-RECLINAGEM---|\t |-----11-E-29-----|\t |-%.2f - 0.8-|\t|----%.2f - 70%%off---|\t |-----%.2f - 50%%off-----|\n\n",
+    printf("|--SEM-RECLINAGEM---|\t |-----11-E-29-----|\t |-%.2f - 0.8-|\t|----%02.2f - 70%%off---|\t |-----%.2f - 50%%off-----|\n\n",
            v.fat4, v.desc70, v.desc50SR);
     system("pause");
 
@@ -213,6 +212,7 @@ int valorPassStatus(char l, int n, float vuser) {
 }
 
 float vPass2(int l, int n, float vuser, int idade) {
+
     sVa v;
     v.fat1 = vuser * 2.5; //EXECUTIVA
     v.fat2 = vuser * 0.9; //ECONOMICA
@@ -262,9 +262,14 @@ float vPass2(int l, int n, float vuser, int idade) {
     }
     return k;
 }
-
 void opcao5(int num) {
     int ant1 = -1, ant2 = -1, f = 0, fin1 = 0, fin2 = 0;
+
+    int execMostrado=0;
+    int ecoMostrado=0;
+    int semRecMostrado=0;
+    int saidaEmerMostrado=0;
+
     for (int j = 0; j < 29; j++) {
         f = 0;
         for (int i = 0; i < 6; i++) {
@@ -276,15 +281,55 @@ void opcao5(int num) {
             if (f >= num) {
                 fin1 = i;
                 fin2 = j;
-                printf("Assentos: ");
-                for (int k = fin1 - num + 1; k <= fin1; k++) {
-                    letra = k / -1 + 'F';
-                    if (k == fin1 - num + 1 || k == fin1) {
-                        printf("%c", letra);
-                        printf("%d ", fin2 + 1);
+                if(fin2>=0 && fin2<6 && execMostrado==0) {
+                    printf("Executivo: ");
+                    for (int k = fin1 - num + 1; k <= fin1; k++) {
+                        letra = k / -1 + 'F';
+                        if (k == fin1 - num + 1 || k == fin1) {
+                            printf("%c", letra);
+                            printf("%d ", fin2 + 1);
+                        }
                     }
+                    execMostrado++;
+                    printf("\n");
+                    break;
+                } else if(fin2>5 && fin2!=10 && fin2!=11 && fin2!=12 && fin2!=28 && ecoMostrado==0) {
+                    printf("Economico: ");
+                    for (int k = fin1 - num + 1; k <= fin1; k++) {
+                        letra = k / -1 + 'F';
+                        if (k == fin1 - num + 1 || k == fin1) {
+                            printf("%c", letra);
+                            printf("%d ", fin2 + 1);
+                        }
+                    }
+                    ecoMostrado++;
+                    printf("\n");
+                    break;
+                } else if((fin2==10 || fin2==28) && semRecMostrado==0) {
+                    printf("Sem reclinagem: ");
+                    for (int k = fin1 - num + 1; k <= fin1; k++) {
+                        letra = k / -1 + 'F';
+                        if (k == fin1 - num + 1 || k == fin1) {
+                            printf("%c", letra);
+                            printf("%d ", fin2 + 1);
+                        }
+                    }
+                    semRecMostrado++;
+                    printf("\n");
+                    break;
+                } else if((fin2==11 || fin2==12) && saidaEmerMostrado==0) {
+                    printf("Saida Emergencia: ");
+                    for (int k = fin1 - num + 1; k <= fin1; k++) {
+                        letra = k / -1 + 'F';
+                        if (k == fin1 - num + 1 || k == fin1) {
+                            printf("%c", letra);
+                            printf("%d ", fin2 + 1);
+                        }
+                    }
+                    saidaEmerMostrado++;
+                    printf("\n");
+                    break;
                 }
-                printf("\n");
             }
             ant1 = i;
             ant2 = j;
@@ -319,11 +364,11 @@ int vagDescup3(char letra, int num) {
 }
 
 int vagOcup2(char letra, int num) {
-    int x = 0;
+    int x=0;
     if (m[letra][num] >= 0) {
         printf("Vaga ja ocupada!\n");
         Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
-        x = 1;
+        x++;
     }
     return x;
 }
@@ -339,18 +384,18 @@ void leIdade() {
 }
 
 int confirmAssento() {
-    int a = 0;
+    int b = 0;
     do {
         scanf("%c", &confirm);
     } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
              (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
     if ((confirm == 's') || (confirm == 'S')) {
-        a = 1;
+        b = 1;
     } else {
         printf("Reserva nao confirmada!");
         Sleep(1500);
     }
-    return a;
+    return b;
 }
 
 int reservados() {
@@ -594,7 +639,7 @@ void somaGanhos(int n, float v) {
 
 }
 
-int main() {
+int main (void) {
     inicializa();
     setlocale(LC_ALL, "portuguese");
     int opcao;
@@ -621,83 +666,80 @@ int main() {
         scanf("%d", &opcao);
         system("cls");
         switch (opcao) {
-            case 1:
-                tabela(vuser);
+        case 1:
+            tabela(vuser);
+            break;
+        case 2:
+            mapa();
+            leAssento();
+            int test = vagOcup2(parseIndex(letra), parseIndex2(num));
+            if (test==1) {
                 break;
-            case 2:
-                mapa();
-                leAssento();
-                int test = vagOcup2(parseIndex(letra), parseIndex2(num));
-                if (test == 1) {
-                    break;
-                }
-                leIdade();
-                printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra,
-                       num, vPass2(parseIndex(letra), num, vuser, idade));
-                int test1 = confirmAssento();
-                if (test1 == 1) {
-                    float val = vPass2(parseIndex(letra), num, vuser, idade);
-                    somaGanhos(parseIndex2(num), val);
-                    m[parseIndex(letra)][parseIndex2(num)] = idade;
-                }
+            }
+            leIdade();
+            printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra,
+                   num, vPass2(parseIndex(letra), num, vuser, idade));
+            int test1 = confirmAssento();
+            if (test1 == 1) {
+                float val = vPass2(parseIndex(letra), num, vuser, idade);
+                somaGanhos(parseIndex2(num), val);
+                m[parseIndex(letra)][parseIndex2(num)] = idade;
+            }
+            break;
+        case 3:
+            mapa();
+            leAssento();
+            int test2 = vagDescup3(parseIndex(letra), parseIndex2(num));
+            if (test2 == 1) {
                 break;
-            case 3:
-                mapa();
-                leAssento();
-                int test2 = vagDescup3(parseIndex(letra), parseIndex2(num));
-                if (test2 == 1) {
-                    break;
-                }
-                printf("\nDeseja confirmar a liberacao do assento %c%d?[S][N]: ", letra, num);
-                fflush(stdin);
-                do {
-                    scanf("%c", &confirm);
-                } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
-                if ((confirm == 'n') || (confirm == 'N')) {
-                    printf("Liberacao nao confirmada!");
-                    Sleep(1500);
-                    break;
-                }
+            }
+            printf("\nDeseja confirmar a liberacao do assento %c%d?[S][N]: ", letra, num);
+            fflush(stdin);
+            int test3 = confirmAssento();
+            if (test3==1) {
                 libera(parseIndex(letra), parseIndex2(num));
                 printf("\nLiberando vaga!");
+            } else {
+                printf("Liberacao nao confirmada!");
                 Sleep(1500);
                 break;
-            case 4:
-                mapa();
-                leAssento();
-                catAssento(num);
-                printf("\n");
-                AssentoOcup(parseIndex(letra), parseIndex2(num));
-                printf("\n");
-                valorPassStatus(parseIndex(letra), num, vuser);
-                printf("\n");
-                system("pause");
-                break;
-
-
-            case 5:
-                printf("Insira a quantidade de assento: ");
-                fflush(stdin);
-                scanf("%d", &num);
-                opcao5(num);
-                printf("\n");
-                system("pause");
-                break;
-            case 6:
-                graficoA();
-                printf("\n");
-                graficoB();
-                printf("\n");
-                graficoC();
-                printf("\n");
-                graficoD();
-                system("pause");
-                break;
-            case 7:
-                return 0;
-                break;
-            default:
-                break;
+            }
+            Sleep(1500);
+            break;
+        case 4:
+            mapa();
+            leAssento();
+            catAssento(num);
+            printf("\n");
+            AssentoOcup(parseIndex(letra), parseIndex2(num));
+            printf("\n");
+            valorPassStatus(parseIndex(letra), num, vuser);
+            printf("\n");
+            system("pause");
+            break;
+        case 5:
+            printf("Insira a quantidade de assento: ");
+            fflush(stdin);
+            scanf("%d", &num);
+            opcao5(num);
+            printf("\n");
+            system("pause");
+            break;
+        case 6:
+            graficoA();
+            printf("\n");
+            graficoB();
+            printf("\n");
+            graficoC();
+            printf("\n");
+            graficoD();
+            system("pause");
+            break;
+        case 7:
+            return 0;
+            break;
+        default:
+            break;
         }
 
     }
