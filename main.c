@@ -3,22 +3,24 @@
 #include <locale.h>
 #include <string.h>
 #include <windows.h>
-//variaveis globais de controle
 
+/*--------variaveis globais de controle----------*/
 int m[6][29];
-char letra;
+char letra, confirm;
 int num;
-float vuser=0;
+int idade;
+
+float vuser = 0;
 
 float vToTEx = 0;
 float vToTEc = 0;
 float vToTSE = 0;
 float vToTSR = 0;
-
+/*-----------------------*/
 typedef struct valor {
+
     float desc10, desc20Ex, desc20SE, desc30E, desc30SE, desc50SR, desc50E, desc70;
     float fat1, fat2, fat3, fat4;
-
 } sVa;
 
 void libera(char l, int n) {
@@ -30,10 +32,13 @@ int parseIndex2(int n) {
 }
 
 int parseIndex(char l) {
+
+
     int n;
     n = (l - 'F') * -1;
     return n;
 }
+
 
 void tabela(float vuser) {
     sVa v; //
@@ -170,35 +175,35 @@ int valorPassStatus(char l, int n, float vuser) {
         }
 
     } else {
-        if(n <= 6 && n >= 0) {
-            if(m[l][n]>=0 && m[l][n]<2) { //executiva
+        if (n <= 6 && n >= 0) {
+            if (m[l][n] >= 0 && m[l][n] < 2) { //executiva
                 printf("Valor da passagem eh: %.2f", v.desc20Ex);
-            } else if(m[l][n]>=2 && m[l][n]<=12) {
+            } else if (m[l][n] >= 2 && m[l][n] <= 12) {
                 printf("Valor da passagem eh: %.2f", v.desc10);
                 printf("21");
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat1);
             }
-        } else if((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
-            if(m[l][n]>=0 && m[l][n]<2) {
+        } else if ((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
+            if (m[l][n] >= 0 && m[l][n] < 2) {
                 printf("Valor da passagem eh: %.2f", v.desc50E);
-            } else if(m[l][n]>=2 && m[l][n]<=12) {
+            } else if (m[l][n] >= 2 && m[l][n] <= 12) {
                 printf("Valor da passagem eh: %.2f", v.desc30E);
             } else {
-                printf("Valor da passagem eh: %.2f",v.fat2);
+                printf("Valor da passagem eh: %.2f", v.fat2);
             }
-        } else if(n == 12 || n == 13) {
-            if(m[l][n]>=0 && m[l][n]<2) {
+        } else if (n == 12 || n == 13) {
+            if (m[l][n] >= 0 && m[l][n] < 2) {
                 printf("Valor da passagem eh: %.2f", v.desc30SE);
-            } else if(m[l][n]>=2 && m[l][n]<=12) {
-                printf("Valor da passagem eh: %.2f",v.desc20SE);
+            } else if (m[l][n] >= 2 && m[l][n] <= 12) {
+                printf("Valor da passagem eh: %.2f", v.desc20SE);
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat3);
             }
         } else {
-            if(m[l][n]>=0 && m[l][n]<2) {
-                printf("Valor da passagem eh: %.2f",v.desc70);
-            } else if(m[l][n]>=2 && m[l][n]<=12) {
+            if (m[l][n] >= 0 && m[l][n] < 2) {
+                printf("Valor da passagem eh: %.2f", v.desc70);
+            } else if (m[l][n] >= 2 && m[l][n] <= 12) {
                 printf("Valor da passagem eh: %.2f", v.desc50SR);
             } else {
                 printf("Valor da passagem eh: %.2f", v.fat4);
@@ -207,7 +212,7 @@ int valorPassStatus(char l, int n, float vuser) {
     }
 }
 
-float vPass2(int l,int n, float vuser, int idade) {
+float vPass2(int l, int n, float vuser, int idade) {
     sVa v;
     v.fat1 = vuser * 2.5; //EXECUTIVA
     v.fat2 = vuser * 0.9; //ECONOMICA
@@ -221,35 +226,35 @@ float vPass2(int l,int n, float vuser, int idade) {
     v.desc50SR = v.fat4 * 0.5; //50% DESCONTO SEM RECLINAGEM 2<12
     v.desc50E = v.fat2 * 0.5; //50% DESCONTO ECONOMICA 0<2
     v.desc70 = v.fat4 * 0.3; //70% DESCONTO SEM RECLINAGEM 0<2
-    float k=0;
-    if(n <= 6 && n >= 0) {
-        if(idade >=0 && idade<2) { //executiva
-            k=v.desc20Ex;
-        } else if(idade>=2 && idade<=12) {
-            k=v.desc10;
+    float k = 0;
+    if (n <= 6 && n >= 0) {
+        if (idade >= 0 && idade < 2) { //executiva
+            k = v.desc20Ex;
+        } else if (idade >= 2 && idade <= 12) {
+            k = v.desc10;
         } else {
-            k=v.fat1;
+            k = v.fat1;
         }
-    } else if((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
-        if(idade>=0 && idade<2) {
+    } else if ((n <= 10 && n >= 7) || (n <= 28 && n >= 14)) { //economica
+        if (idade >= 0 && idade < 2) {
             k = v.desc50E;
-        } else if(idade>=2 && idade<=12) {
+        } else if (idade >= 2 && idade <= 12) {
             k = v.desc30E;
         } else {
             k = v.fat2;
         }
-    } else if(n == 12 || n == 13) {
-        if(idade>=0 && idade<2) {
+    } else if (n == 12 || n == 13) {
+        if (idade >= 0 && idade < 2) {
             k = v.desc30SE;
-        } else if(idade>=2 && idade<=12) {
+        } else if (idade >= 2 && idade <= 12) {
             k = v.desc20SE;
         } else {
             k = v.fat3;
         }
     } else {
-        if(idade>=0 && idade<2) {
+        if (idade >= 0 && idade < 2) {
             k = v.desc70;
-        } else if(idade>=2 && idade<=12) {
+        } else if (idade >= 2 && idade <= 12) {
             k = v.desc50SR;
         } else {
             k = v.fat4;
@@ -258,7 +263,37 @@ float vPass2(int l,int n, float vuser, int idade) {
     return k;
 }
 
+void opcao5(int num) {
+    int ant1 = -1, ant2 = -1, f = 0, fin1 = 0, fin2 = 0;
+    for (int j = 0; j < 29; j++) {
+        f = 0;
+        for (int i = 0; i < 6; i++) {
+            if ((f == 0 && m[i][j] < 0) || (m[i][j] < 0 && m[ant1][ant2] < 0)) {
+                f++;
+            } else {
+                f = 0;
+            }
+            if (f >= num) {
+                fin1 = i;
+                fin2 = j;
+                printf("Assentos: ");
+                for (int k = fin1 - num + 1; k <= fin1; k++) {
+                    letra = k / -1 + 'F';
+                    if (k == fin1 - num + 1 || k == fin1) {
+                        printf("%c", letra);
+                        printf("%d ", fin2 + 1);
+                    }
+                }
+                printf("\n");
+            }
+            ant1 = i;
+            ant2 = j;
+        }
+    }
+}
+
 void leAssento() {
+
     do {
         printf("Digite o assento: (A ate F e 1 ate 29)\n"); //PEDE O ASSENTO PARA O USUARIO
         fflush(stdin);
@@ -266,18 +301,63 @@ void leAssento() {
         if (letra > 70) {
             letra -= 32;
         }
-        if(letra < 65 || letra > 70 || num < 1 || num > 29) {
+        if (letra < 65 || letra > 70 || num < 1 || num > 29) {
             printf("\nOpcao invalida digite novamente.\n"); //PEDE O ASSENTO PARA O USUARIO
         }
 
     } while (letra < 65 || letra > 70 || num < 1 || num > 29);   //VERIFICA VALORES INSERIDOS PELO USUARIO
 }
 
+int vagDescup3(char letra, int num) {
+    int z = 0;
+    if (m[letra][num] < 0) {
+        printf("Vaga ja desocupada!\n");
+        Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
+        z = 1;
+    }
+    return z;
+}
+
+int vagOcup2(char letra, int num) {
+    int x = 0;
+    if (m[letra][num] >= 0) {
+        printf("Vaga ja ocupada!\n");
+        Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
+        x = 1;
+    }
+    return x;
+}
+
+void leIdade() {
+    do {
+        printf("Digite sua idade (0 ate 99): ");
+        scanf("%d", &idade);
+        if (idade > 99 || idade < 0) {
+            printf("\nIdade invalida, digite novamente\n");
+        }
+    } while (idade > 99 || idade < 0);
+}
+
+int confirmAssento() {
+    int a = 0;
+    do {
+        scanf("%c", &confirm);
+    } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
+             (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
+    if ((confirm == 's') || (confirm == 'S')) {
+        a = 1;
+    } else {
+        printf("Reserva nao confirmada!");
+        Sleep(1500);
+    }
+    return a;
+}
+
 int reservados() {
-    int reservados=0;
-    for(int i=0; i<6; i++) {
-        for(int j=0; j<29; j++) {
-            if(m[i][j]>=0) {
+    int reservados = 0;
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 29; j++) {
+            if (m[i][j] >= 0) {
                 reservados++;
             }
         }
@@ -286,10 +366,10 @@ int reservados() {
 }
 
 int liberados() {
-    int liberados=0;
-    for(int i=0; i<6; i++) {
-        for(int j=0; j<29; j++) {
-            if(m[i][j]<0) {
+    int liberados = 0;
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 29; j++) {
+            if (m[i][j] < 0) {
                 liberados++;
             }
         }
@@ -301,14 +381,14 @@ int total() {
     int linha = sizeof(m) / sizeof(m[0]);
     int col = sizeof(m[0]) / sizeof(m[0][0]);
 
-    return linha*col;
+    return linha * col;
 }
 
 int toPorcentagem(float p) {
     int porCent = 0;
-    for(int i=0; i<=100; i+=5) {
-        if(p<(i+2.5)) {
-            porCent = i/5;
+    for (int i = 0; i <= 100; i += 5) {
+        if (p < (i + 2.5)) {
+            porCent = i / 5;
             break;
         }
     }
@@ -320,10 +400,10 @@ void graficoA() {
     int lib = liberados();
     int tot = total();
 
-    float porcentagemRev = (100.0*rev)/tot;
+    float porcentagemRev = (100.0 * rev) / tot;
     int pRev = toPorcentagem(porcentagemRev);
 
-    float porcentagemLib = (100.0*lib)/tot;
+    float porcentagemLib = (100.0 * lib) / tot;
     int pLib = toPorcentagem(porcentagemLib);
 
     printf("Reservados:\t%3d - \t%5.1f%% [", rev, porcentagemRev);
@@ -339,19 +419,19 @@ void graficoA() {
 
 void graficoB() {
     int rev = reservados();
-    int tamLinha= total()/6;
+    int tamLinha = total() / 6;
 
-    int ocupado=0;
+    int ocupado = 0;
     char linha;
-    for(int i=0; i<6; i++) {
-        ocupado=0;
+    for (int i = 0; i < 6; i++) {
+        ocupado = 0;
         linha = i / -1 + 'F';
-        for(int j=0; j<29; j++) {
-            if(m[i][j]>=0) {
+        for (int j = 0; j < 29; j++) {
+            if (m[i][j] >= 0) {
                 ocupado++;
             }
         }
-        float porcentagem = (100.0*ocupado)/tamLinha;
+        float porcentagem = (100.0 * ocupado) / tamLinha;
         int porCent = toPorcentagem(porcentagem);
 
         printf("%c: \t\t%3d - \t%5.1f%% [", linha, ocupado, porcentagem);
@@ -365,31 +445,31 @@ void graficoB() {
 
 void graficoC() {
     int rev = reservados();
-    int tamLinha = total()/6;
+    int tamLinha = total() / 6;
     int idadeZeroDois = 0;
     int idadeDoisDoze = 0;
     int idadeDozeVinte = 0;
     int idadeVinteSessenta = 0;
     int idadeSessentaNoventa = 0;
-    for(int i=0; i<6; i++) {
-        for(int j=0; j<29; j++) {
-            if(m[i][j]>=0 && m[i][j]<2) {
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 29; j++) {
+            if (m[i][j] >= 0 && m[i][j] < 2) {
                 idadeZeroDois++;
-            } else if(m[i][j]>=2 && m[i][j]<12) {
+            } else if (m[i][j] >= 2 && m[i][j] < 12) {
                 idadeDoisDoze++;
-            } else if(m[i][j]>=12 && m[i][j]<20) {
+            } else if (m[i][j] >= 12 && m[i][j] < 20) {
                 idadeDozeVinte++;
-            } else if(m[i][j]>=20 && m[i][j]<60) {
+            } else if (m[i][j] >= 20 && m[i][j] < 60) {
                 idadeVinteSessenta++;
-            } else if(m[i][j]>=60) {
+            } else if (m[i][j] >= 60) {
                 idadeSessentaNoventa++;
             }
         }
     }
 
     float porcentagemZeroDois = 0;
-    if(rev!=0) {
-        porcentagemZeroDois = (100.0*idadeZeroDois)/rev;
+    if (rev != 0) {
+        porcentagemZeroDois = (100.0 * idadeZeroDois) / rev;
     }
     int porCentZeroDois = toPorcentagem(porcentagemZeroDois);
     printf("00-02: \t\t%3d - \t%5.1f%% [", idadeZeroDois, porcentagemZeroDois);
@@ -397,8 +477,8 @@ void graficoC() {
     printf("]\n");
 
     float porcentagemDoisDoze = 0;
-    if(rev!=0) {
-        porcentagemDoisDoze = (100.0*idadeDoisDoze)/rev;
+    if (rev != 0) {
+        porcentagemDoisDoze = (100.0 * idadeDoisDoze) / rev;
     }
     int porCentDoisDoze = toPorcentagem(porcentagemDoisDoze);
     printf("02-12: \t\t%3d - \t%5.1f%% [", idadeDoisDoze, porcentagemDoisDoze);
@@ -406,8 +486,8 @@ void graficoC() {
     printf("]\n");
 
     float porcentagemDozeVinte = 0;
-    if(rev!=0) {
-        porcentagemDozeVinte = (100.0*idadeDozeVinte)/rev;
+    if (rev != 0) {
+        porcentagemDozeVinte = (100.0 * idadeDozeVinte) / rev;
     }
     int porCentDozeVinte = toPorcentagem(porcentagemDozeVinte);
     printf("12-20: \t\t%3d - \t%5.1f%% [", idadeDozeVinte, porcentagemDozeVinte);
@@ -415,8 +495,8 @@ void graficoC() {
     printf("]\n");
 
     float porcentagemVinteSessenta = 0;
-    if(rev!=0) {
-        porcentagemVinteSessenta = (100.0*idadeVinteSessenta)/rev;
+    if (rev != 0) {
+        porcentagemVinteSessenta = (100.0 * idadeVinteSessenta) / rev;
     }
     int porCentVinteSessenta = toPorcentagem(porcentagemVinteSessenta);
     printf("20-60: \t\t%3d - \t%5.1f%% [", idadeVinteSessenta, porcentagemVinteSessenta);
@@ -424,8 +504,8 @@ void graficoC() {
     printf("]\n");
 
     float porcentagemSessentaNoventa = 0;
-    if(rev!=0) {
-        porcentagemSessentaNoventa = (100.0*idadeSessentaNoventa)/rev;
+    if (rev != 0) {
+        porcentagemSessentaNoventa = (100.0 * idadeSessentaNoventa) / rev;
     }
     int porCentSessentaNoventa = toPorcentagem(porcentagemSessentaNoventa);
     printf("60-99: \t\t%3d - \t%5.1f%% [", idadeSessentaNoventa, porcentagemSessentaNoventa);
@@ -438,32 +518,32 @@ void graficoC() {
     printf("]\n");
 }
 
-void graficoD(){
+void graficoD() {
     float valorTotal = vToTEx + vToTSR + vToTSE + vToTEc;
 
     float porcentagemEx = 0;
-    if(valorTotal!=0){
-        porcentagemEx = (100.0*vToTEx)/valorTotal;
+    if (valorTotal != 0) {
+        porcentagemEx = (100.0 * vToTEx) / valorTotal;
     }
     int pEx = toPorcentagem(porcentagemEx);
 
 
     float porcentagemEc = 0;
-    if(valorTotal!=0){
-        porcentagemEc = (100.0*vToTEc)/valorTotal;
+    if (valorTotal != 0) {
+        porcentagemEc = (100.0 * vToTEc) / valorTotal;
     }
     int pEc = toPorcentagem(porcentagemEc);
 
     float porcentagemSE = 0;
-    if(valorTotal!=0){
-        porcentagemSE = (100.0*vToTSE)/valorTotal;
+    if (valorTotal != 0) {
+        porcentagemSE = (100.0 * vToTSE) / valorTotal;
     }
     int pSE = toPorcentagem(porcentagemSE);
 
 
     float porcentagemSR = 0;
-    if(valorTotal!=0){
-        porcentagemSR = (100.0*vToTSR)/valorTotal;
+    if (valorTotal != 0) {
+        porcentagemSR = (100.0 * vToTSR) / valorTotal;
     }
     int pSR = toPorcentagem(porcentagemSR);
 
@@ -492,8 +572,8 @@ void graficoD(){
 }
 
 void toGrafico(int multi5) {
-    for(int i=0; i<20; i++) {
-        if(multi5>i) {
+    for (int i = 0; i < 20; i++) {
+        if (multi5 > i) {
             printf("=");
         } else {
             printf(".");
@@ -501,15 +581,15 @@ void toGrafico(int multi5) {
     }
 }
 
-void somaGanhos(int n, float v){
-    if (n<6) {
+void somaGanhos(int n, float v) {
+    if (n < 6) {
         vToTEx += v;
-    } else if(n == 10 || n == 28) {
+    } else if (n == 10 || n == 28) {
         vToTSR += v;
-    } else if(n == 11 || n == 12) {
+    } else if (n == 11 || n == 12) {
         vToTSE += v;
     } else {
-        vToTEc +=v;
+        vToTEc += v;
     }
 
 }
@@ -517,8 +597,7 @@ void somaGanhos(int n, float v){
 int main() {
     inicializa();
     setlocale(LC_ALL, "portuguese");
-    int opcao, idade;
-    char confirm;
+    int opcao;
     //garantindo valor positivo inserido pelo user
     do {
         printf("Para iniciar o programa digite o valor base da sua passagem,\nlembrando que o valor deve ser acima de zero (0): ");
@@ -541,128 +620,87 @@ int main() {
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
         system("cls");
-
         switch (opcao) {
-        case 1:
-            tabela(vuser);
-            break;
-        case 2:
-
-            mapa();
-            leAssento();
-            if (m[parseIndex(letra)][parseIndex2(num)] >= 0) {//VERIFICA SE O ASSENTO JA ESTA SENDO USADO
-                printf("Vaga ja ocupada!\n");
-                Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
+            case 1:
+                tabela(vuser);
                 break;
-            }
-            do {
-                printf("Digite sua idade (0 ate 99): ");
-                scanf("%d", &idade);
-                if(idade>99 || idade<0) {
-                    printf("\nIdade invalida, digite novamente\n");
+            case 2:
+                mapa();
+                leAssento();
+                int test = vagOcup2(parseIndex(letra), parseIndex2(num));
+                if (test == 1) {
+                    break;
                 }
-            } while(idade>99 || idade<0);
-            printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra, num, vPass2(parseIndex(letra),num, vuser, idade));
-            do {
-                scanf("%c", &confirm);
-            } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') &&
-                     (confirm != 'N'));   //VERIFICA SE A OPCAO COLOCADA EH IGUAL AOS PADROES ACEITOS
-            if ((confirm == 's') || (confirm == 'S')) {
-                float val = vPass2(parseIndex(letra),num, vuser, idade);
-                somaGanhos(parseIndex2(num), val);
-                m[parseIndex(letra)][parseIndex2(num)] = idade;
-
-            } else {
-                printf("Reserva nao confirmada!");
-                Sleep(1500);
-            }
-            break;
-        case 3:
-            mapa();
-            leAssento();
-
-            if (m[parseIndex(letra)][parseIndex2(num)] < 0) {
-                printf("Vaga ja desocupada!\n");
-                Sleep(1500); //VALOR MILISEGUNDOS TEMPO DE ESPERA
+                leIdade();
+                printf("Voce escolheu o assento %c%d com valor de R$%.2f. Deseja confirmar a reserva?\n[S][N]: ", letra,
+                       num, vPass2(parseIndex(letra), num, vuser, idade));
+                int test1 = confirmAssento();
+                if (test1 == 1) {
+                    float val = vPass2(parseIndex(letra), num, vuser, idade);
+                    somaGanhos(parseIndex2(num), val);
+                    m[parseIndex(letra)][parseIndex2(num)] = idade;
+                }
                 break;
-            }
-            printf("\nDeseja confirmar a liberacao do assento %c%d?[S][N]: ", letra, num);
-            fflush(stdin);
-            do {
-                scanf("%c", &confirm);
-            } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
-            if ((confirm == 'n') || (confirm == 'N')) {
-                printf("Liberacao nao confirmada!");
+            case 3:
+                mapa();
+                leAssento();
+                int test2 = vagDescup3(parseIndex(letra), parseIndex2(num));
+                if (test2 == 1) {
+                    break;
+                }
+                printf("\nDeseja confirmar a liberacao do assento %c%d?[S][N]: ", letra, num);
+                fflush(stdin);
+                do {
+                    scanf("%c", &confirm);
+                } while ((confirm != 'S') && (confirm != 's') && (confirm != 'n') && (confirm != 'N'));
+                if ((confirm == 'n') || (confirm == 'N')) {
+                    printf("Liberacao nao confirmada!");
+                    Sleep(1500);
+                    break;
+                }
+                libera(parseIndex(letra), parseIndex2(num));
+                printf("\nLiberando vaga!");
                 Sleep(1500);
                 break;
-            }
-            libera(parseIndex(letra), parseIndex2(num));
-            printf("\nLiberando vaga!");
-        Sleep(1500);
-        break;
-    case 4:
-        mapa();
-        leAssento();
-        catAssento(num);
-        printf("\n");
-        AssentoOcup(parseIndex(letra), parseIndex2(num));
-        printf("\n");
-        valorPassStatus(parseIndex(letra), num, vuser);
-        printf("\n");
-        system("pause");
-        break;
+            case 4:
+                mapa();
+                leAssento();
+                catAssento(num);
+                printf("\n");
+                AssentoOcup(parseIndex(letra), parseIndex2(num));
+                printf("\n");
+                valorPassStatus(parseIndex(letra), num, vuser);
+                printf("\n");
+                system("pause");
+                break;
 
 
-    case 5:
-        printf("Insira a quantidade de assento: ");
-        fflush(stdin);
-        scanf("%d", &num);
-        int ant1 = -1, ant2 = -1, bNum = num, f = 0, fin1 = 0, fin2 = 0;
-        for (int j = 0; j < 29; j++) {
-            f = 0;
-            for (int i = 0; i < 6; i++) {
-                if ((f == 0 && m[i][j] < 0) || (m[i][j] < 0 && m[ant1][ant2] < 0)) {
-                    f++;
-                } else {
-                    f = 0;
-                }
-                if (f >= num) {
-                    fin1 = i;
-                    fin2 = j;
-                    printf("Assentos: ");
-                    for (int k = fin1 - num + 1; k <= fin1; k++) {
-                        letra = k / -1 + 'F';
-                        if (k == fin1 - num + 1 || k == fin1) {
-                            printf("%c", letra);
-                            printf("%d ", fin2+1);
-                        }
-                    }
-                    printf("\n");
-                }
-                ant1 = i;
-                ant2 = j;
-            }
+            case 5:
+                printf("Insira a quantidade de assento: ");
+                fflush(stdin);
+                scanf("%d", &num);
+                opcao5(num);
+                printf("\n");
+                system("pause");
+                break;
+            case 6:
+                graficoA();
+                printf("\n");
+                graficoB();
+                printf("\n");
+                graficoC();
+                printf("\n");
+                graficoD();
+                system("pause");
+                break;
+            case 7:
+                return 0;
+                break;
+            default:
+                break;
         }
-        printf("\n");
-        system("pause");
-        break;
-    case 6:
-        graficoA();
-        printf("\n");
-        graficoB();
-        printf("\n");
-        graficoC();
-        printf("\n");
-        graficoD();
-        system("pause");
-        break;
-    case 7:
-        return 0;
-        break;
-    default:
-        break;
+
     }
-}
-return 0;
+    return 0;
 }
 
